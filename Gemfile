@@ -11,8 +11,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.5'
 
-gem 'devise'
-
 gem 'elm-rails', git: 'https://github.com/mariochavez/elm-rails', branch: 'rails5_with_sprockets'
 
 group :development, :test do
