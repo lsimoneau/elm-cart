@@ -21,6 +21,7 @@ end
 group :test do
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'json_spec'
 end
 
 group :development do
