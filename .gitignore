@@ -13,5 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 
+/elm-stuff
+
 # Ignore Byebug command history file.
 .byebug_history
