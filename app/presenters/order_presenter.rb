@@ -24,7 +24,7 @@ class OrderPresenter
     def as_json
       {
         quantity: item.quantity,
-        unit_price: item.unit_price,
+        unit_price: item.product.unit_price,
         subtotal: item.subtotal
       }
     end
