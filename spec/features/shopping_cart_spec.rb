@@ -15,5 +15,6 @@ RSpec.describe "Shopping cart" do
     within("article.product", text: "Sulfuras") do
       click_link("Add to Cart")
     end
+    expect(page).to have_content("My Cart (1)")
   end
 end
