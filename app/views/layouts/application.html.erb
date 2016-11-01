@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Shopfront</title>
+    <title>The Gilded Rose</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
@@ -11,6 +11,19 @@
   </head>
 
   <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="nav-item">
+          <h1 class="title">The Gilded Rose</h1>
+        </div>
+      </div>
+      <div class="nav-right">
+        <div class="nav-item">
+          My Cart
+          <span class="icon"><i class="fa fa-shopping-cart"></i></span>
+        </div>
+      </div>
+    </nav>
     <%= yield %>
   </body>
 </html>

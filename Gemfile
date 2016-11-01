@@ -22,6 +22,10 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'json_spec'
+  gem 'capybara'
+  gem 'poltergeist'
+  gem 'launchy'
+  gem 'database_cleaner'
 end
 
 group :development do

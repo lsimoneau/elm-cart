@@ -1,6 +1,7 @@
 <section class="section">
+<% @products.each do |product| %>
   <div class="box">
-    <article class="media">
+    <article class="product media">
       <figure class="media-left">
         <p class="image is-128x128">
           <img src="http://placehold.it/256x256">
@@ -9,14 +10,14 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>Aged Brie</strong>
-            <br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+          <strong><%= product.name %></strong>
+          <br>
+          <%= product.description %>
           </p>
         </div>
         <nav class="level">
           <div class="level-left">
-            <a class="level-item">
+            <a href="#" class="level-item">
               <span class="icon"><i class="fa fa-cart-plus"></i></span>
               Add to Cart
             </a>
@@ -25,62 +26,5 @@
       </div>
     </article>
   </div>
-  <div class="box">
-    <article class="media">
-      <figure class="media-left">
-        <p class="image is-128x128">
-          <img src="http://placehold.it/256x256">
-        </p>
-      </figure>
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong>Backstage passes to a TAFKAL80ETC concert</strong>
-            <br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-          </p>
-        </div>
-        <nav class="level">
-          <div class="level-left">
-            <a class="level-item">
-              <span class="icon"><i class="fa fa-cart-plus"></i></span>
-              Add to Cart
-            </a>
-          </div>
-        </nav>
-      </div>
-    </article>
-  </div>
-  <div class="box">
-    <article class="media">
-      <figure class="media-left">
-        <p class="image is-128x128">
-          <img src="http://placehold.it/256x256">
-        </p>
-      </figure>
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong>Sulfuras, Hand of Ragnaros</strong>
-            <br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-          </p>
-        </div>
-        <nav class="level">
-          <div class="level-left">
-            <a class="level-item">
-              <span class="icon"><i class="fa fa-cart-plus"></i></span>
-              Add to Cart
-            </a>
-            <a class="level-item">
-              <span class="icon is-small"><i class="fa fa-retweet"></i></span>
-            </a>
-            <a class="level-item">
-              <span class="icon is-small"><i class="fa fa-heart"></i></span>
-            </a>
-          </div>
-        </nav>
-      </div>
-    </article>
-  </div>
-</div>
+<% end %>
+</section>
