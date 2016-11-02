@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   def create
     order = Order.for_session(session)
+    session[:cart_id] = order.id
+
     order.items.create(item_params)
     presenter = OrderPresenter.new(order)
     render json: presenter

@@ -19,7 +19,7 @@ RSpec.describe 'Managing a shopping cart' do
   end
 
   describe 'adding multiple items to the cart' do
-    xit 'returns the populated cart' do
+    it 'returns the populated cart' do
       brie = Product.create(name: "Aged Brie", unit_price: 12.00)
       sulfuras = Product.create(name: "Sulfuras, Hand of Ragnaros", unit_price: 1000.00)
       post '/cart/items', params: { item: { product_id: brie.id, quantity: 3 } }
