@@ -2,7 +2,7 @@
 //= require jquery_ujs
 //= require_tree .
 
-//= require Hello
+//= require ShoppingCart
 
 $(document).ready(function() {
   $('a.add-to-cart').click(function(event) {
