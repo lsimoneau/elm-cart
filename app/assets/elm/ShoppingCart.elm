@@ -39,7 +39,7 @@ update msg model =
     Increment productId ->
       { model | cart = incrementProduct productId model.cart }
     Decrement productId ->
-      model
+      { model | cart = decrementProduct productId model.cart }
 
 
 -- VIEW
