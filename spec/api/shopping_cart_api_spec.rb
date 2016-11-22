@@ -8,6 +8,35 @@ RSpec.describe 'Managing a shopping cart' do
       get '/cart', headers: headers
       expect(response.body).to have_json_size(0).at_path('items')
     end
+
+    context 'with items in the cart' do
+      let(:product) { Product.create(name: "Aged Brie", unit_price: 12.00) }
+
+      before do
+        post '/cart/items', params: { item: { product_id: product.id, quantity: 3 } }
+      end
+
+      it 'returns a cart with items' do
+        get '/cart', headers: headers
+        expect(response.body).to have_json_size(1).at_path('items')
+      end
+
+      describe 'item JSON' do
+        it 'has the desired fields' do
+          expected = {
+            items: [{
+              productId: product.id,
+              productName: product.name,
+              quantity: 3,
+              unitPrice: '12.0',
+              subtotal: '36.0'
+            }]
+          }.to_json
+          get '/cart', headers: headers
+          expect(response.body).to be_json_eql(expected)
+        end
+      end
+    end
   end
 
   describe 'adding an item to the cart' do

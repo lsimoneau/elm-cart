@@ -23,8 +23,10 @@ class OrderPresenter
 
     def as_json
       {
+        productId: item.product.id,
+        productName: item.product.name,
         quantity: item.quantity,
-        unit_price: item.product.unit_price,
+        unitPrice: item.product.unit_price,
         subtotal: item.subtotal
       }
     end

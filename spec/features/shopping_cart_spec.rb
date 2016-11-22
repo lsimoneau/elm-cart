@@ -11,10 +11,22 @@ RSpec.describe "Shopping cart" do
   it "can add items to the cart" do
     visit "/products"
 
-    save_and_open_page
     within("article.product", text: "Sulfuras") do
       click_link("Add to Cart")
     end
     expect(page).to have_content("My Cart (1)")
+  end
+
+  it "can view items in the card" do
+    visit "/products"
+
+    within("article.product", text: "Sulfuras") do
+      click_link("Add to Cart")
+    end
+    expect(page).to have_content("My Cart (1)")
+
+    visit "/cart"
+    expect(page).to have_content("Sulfuras, Hand of Ragnaros 1")
+    expect(page).to have_content("$999.00")
   end
 end
