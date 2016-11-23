@@ -19,4 +19,13 @@ $(document).ready(function() {
       }
     });
   });
+
+  (function() {
+      var send = XMLHttpRequest.prototype.send,
+          token = $('meta[name=csrf-token]').attr('content');
+      XMLHttpRequest.prototype.send = function(data) {
+          this.setRequestHeader('X-CSRF-Token', token);
+          return send.apply(this, arguments);
+      };
+  }());
 });

@@ -56,4 +56,16 @@ RSpec.describe 'Managing a shopping cart' do
       expect(response.body).to have_json_size(2).at_path('items')
     end
   end
+
+  describe 'increasing the quantity of an item' do
+    before do
+      brie = Product.create(name: "Aged Brie", unit_price: 12.00)
+      post '/cart/items', params: { item: { product_id: brie.id, quantity: 3 } }
+      post '/cart/items', params: { item: { product_id: brie.id, quantity: 1 } }
+    end
+
+    it 'has one item' do
+      expect(response.body).to have_json_size(1).at_path('items')
+    end
+  end
 end

@@ -8,7 +8,9 @@ import Dict exposing (fromList, toList)
 import ShoppingCart.Item exposing (..)
 import ShoppingCart.Cart exposing (..)
 import Json.Decode as Decode exposing (..)
+import Json.Encode as Encode exposing (..)
 import Dict.Extra exposing (..)
+import Round exposing (round)
 
 
 main =
@@ -48,10 +50,10 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         Increment productId ->
-            ({ model | cart = incrementProduct productId model.cart }, Cmd.none)
+          (model, updateItem productId 1)
 
         Decrement productId ->
-            ({ model | cart = decrementProduct productId model.cart }, Cmd.none)
+          (model, updateItem productId -1)
 
         LoadCart (Ok cart) ->
             ({ model | cart = cart }, Cmd.none)
@@ -75,21 +77,36 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [] (List.map itemView (toList model.cart))
+  section [class "section"]
+  [ div [] (List.map itemView (toList model.cart)) ]
 
 
 itemView : ( ProductId, Item ) -> Html Msg
 itemView ( productId, item ) =
-    div []
+  div [class "box"]
+  [
+    article [class "product media"]
+      [ div [class "content"]
         [ div [] [ text item.name ]
         , div [] [ toString item.quantity |> text ]
+        , div [] [ dollars item.subtotal |> text ]
         , button [ onClick (Decrement productId) ] [ text "-" ]
         , button [ onClick (Increment productId) ] [ text "+" ]
         ]
+      ]
+    ]
 
 
+dollars : Float -> String
+dollars n =
+  "$" ++ Round.round 2 n
 
 -- HTTP
+
+
+updateItem : ProductId -> Int -> Cmd Msg
+updateItem id quantity =
+  Http.send LoadCart (Http.post "/cart/items" (Http.jsonBody (Encode.object [("product_id", Encode.int id), ("quantity", Encode.int quantity)])) decodeCart)
 
 
 fetchCart : Cmd Msg

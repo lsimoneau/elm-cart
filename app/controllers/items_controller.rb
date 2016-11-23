@@ -3,7 +3,8 @@ class ItemsController < ApplicationController
     order = Order.for_session(session)
     session[:cart_id] = order.id
 
-    order.items.create(item_params)
+    AddToCart.call(order, item_params)
+
     presenter = OrderPresenter.new(order)
     render json: presenter
   end
