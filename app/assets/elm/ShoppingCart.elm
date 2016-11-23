@@ -27,12 +27,11 @@ type alias Model =
 
 init : (Model, Cmd Msg)
 init =
-    ({ loading = False
-    , cart =
-        fromList
-            [ ( 123, { quantity = 1, unitPrice = 99.0, subtotal = 99.0, name = "Sulfuras, Hand of Ragnaros" } )
-            ]
-    }, Cmd.none)
+    (
+      { loading = False
+      , cart = fromList []
+      }
+    , fetchCart)
 
 
 
@@ -42,9 +41,7 @@ init =
 type Msg
     = Increment ProductId
     | Decrement ProductId
-    | CartLoaded (Result Http.Error Cart)
-    | RequestSucceed String
-    | RequestFail Http.Error
+    | LoadCart (Result Http.Error Cart)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -56,16 +53,10 @@ update msg model =
         Decrement productId ->
             ({ model | cart = decrementProduct productId model.cart }, Cmd.none)
 
-        RequestSucceed response ->
-            (model, Cmd.none)
+        LoadCart (Ok cart) ->
+            ({ model | cart = cart }, Cmd.none)
 
-        RequestFail error ->
-            (model, Cmd.none)
-
-        CartLoaded (Ok json) ->
-            (model, Cmd.none)
-
-        CartLoaded (Err _) ->
+        LoadCart (Err _) ->
             (model, Cmd.none)
 
 
@@ -101,13 +92,18 @@ itemView ( productId, item ) =
 -- HTTP
 
 
+fetchCart : Cmd Msg
+fetchCart =
+  Http.send LoadCart (Http.get "/cart.json" decodeCart)
+
+
 type alias JsonItem =
   { productId: Int, quantity: Int, productName: String, unitPrice: Float, subtotal: Float }
 
 
 decodeCart : Decode.Decoder Cart
 decodeCart =
-  Decode.map buildCart (Decode.field "items" (Decode.list decodeRecord))
+  Decode.map buildCart (Decode.field "items" (Decode.list decodeItem))
 
 
 buildCart : List JsonItem -> Cart
@@ -117,8 +113,8 @@ buildCart items =
   ) items)
 
 
-decodeRecord : Decode.Decoder JsonItem
-decodeRecord =
+decodeItem : Decode.Decoder JsonItem
+decodeItem =
   Decode.map5 JsonItem
     (Decode.field "productId" Decode.int)
     (Decode.field "quantity" Decode.int)
