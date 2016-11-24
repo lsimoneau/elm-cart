@@ -37,7 +37,7 @@ all =
       [ test "decodes JSON" <|
           \() ->
             cartJson
-              |> Json.Decode.decodeString decodeCart
+              |> Json.Decode.decodeString cartDecoder
               |> Expect.equal (Ok expectedCart)
       ]
   ]
