@@ -20,13 +20,6 @@ main =
 
 -- MODEL
 
-
-type alias Model =
-    { loading : Bool
-    , cart : Cart
-    }
-
-
 init : ( Model, Cmd Msg )
 init =
     ( { loading = False

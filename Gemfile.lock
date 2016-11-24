@@ -1,7 +1,7 @@
 GIT
-  remote: https://github.com/mariochavez/elm-rails
-  revision: 797e19eca047dcdbca0665de7564107d17ed6bde
-  branch: rails5_with_sprockets
+  remote: https://github.com/lsimoneau/elm-rails
+  revision: b749f46d59fe8e5f74d14e8910c4d3dc0d620010
+  branch: fix-dependencies
   specs:
     elm-rails (0.1.2)
       elm-compiler (~> 0.1.2)

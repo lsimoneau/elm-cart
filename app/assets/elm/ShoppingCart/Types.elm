@@ -4,6 +4,12 @@ import Dict exposing (Dict)
 import Http exposing (Error)
 
 
+type alias Model =
+    { loading : Bool
+    , cart : Cart
+    }
+
+
 type Msg
     = Increment ProductId
     | Decrement ProductId
