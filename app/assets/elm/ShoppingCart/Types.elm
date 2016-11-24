@@ -6,6 +6,7 @@ import Http exposing (Error)
 
 type alias Model =
     { loading : Bool
+    , checkout : Bool
     , cart : Cart
     }
 
@@ -14,6 +15,8 @@ type Msg
     = Increment ProductId
     | Decrement ProductId
     | UpdateCart (Result Error Cart)
+    | GoToCheckout
+    | CancelCheckout
 
 
 type alias ProductId =
@@ -21,7 +24,7 @@ type alias ProductId =
 
 
 type alias Item =
-    { productId: Int
+    { productId: ProductId
     , quantity : Int
     , name : String
     , unitPrice : Float

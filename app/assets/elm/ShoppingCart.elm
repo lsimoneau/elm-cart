@@ -23,6 +23,7 @@ main =
 init : ( Model, Cmd Msg )
 init =
     ( { loading = False
+      , checkout = False
       , cart = []
       }
     , fetchCart
@@ -36,6 +37,12 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        GoToCheckout ->
+            ( { model | checkout = True }, Cmd.none )
+
+        CancelCheckout ->
+            ( { model | checkout = False }, Cmd.none )
+
         Increment productId ->
             ( model, updateItem productId 1 )
 
@@ -65,7 +72,10 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     section [ class "section" ]
-        [ div [] (List.map itemView model.cart) ]
+        [ div [] (List.map itemView model.cart)
+        , a [ class "button is-primary", onClick GoToCheckout ] [ text "Checkout" ]
+        , checkoutDialog model
+        ]
 
 
 itemView : Item -> Html Msg
@@ -78,6 +88,28 @@ itemView item =
                 , div [] [ dollars item.subtotal |> text ]
                 , button [ onClick (Decrement item.productId) ] [ text "-" ]
                 , button [ onClick (Increment item.productId) ] [ text "+" ]
+                ]
+            ]
+        ]
+
+
+checkoutDialog : Model -> Html Msg
+checkoutDialog model =
+    div [ class (if model.checkout then "modal is-active" else "modal") ]
+        [ div [ class "modal-background" ] []
+        , div [ class "modal-card" ]
+            [ header [ class "modal-card-head" ]
+                [ p [ class "modal-card-title" ] [ text "Checkout" ] ]
+            , section [ class "modal-card-body" ]
+                [ label [ class "label" ] [ text "Card Number" ]
+                , p [ class "control has-icon has-icon-left" ]
+                    [ i [ class "fa fa-credit-card" ] []
+                    , input [ class "input", type_ "text" ] []
+                    ]
+                ]
+            , footer [ class "modal-card-foot" ]
+                [ a [ class "button is-primary" ] [ text "Checkout" ]
+                , a [ class "button", onClick CancelCheckout ] [ text "Cancel" ]
                 ]
             ]
         ]

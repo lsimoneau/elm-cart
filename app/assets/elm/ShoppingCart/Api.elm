@@ -10,10 +10,6 @@ import ShoppingCart.Types exposing (..)
 -- HTTP
 
 
-type alias JsonItem =
-    { productId : Int, quantity : Int, productName : String, unitPrice : Float, subtotal : Float }
-
-
 updateItem : ProductId -> Int -> Cmd Msg
 updateItem id quantity =
     Http.send UpdateCart (updateItemRequest id quantity)
