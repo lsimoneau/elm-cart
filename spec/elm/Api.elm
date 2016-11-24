@@ -10,7 +10,7 @@ import Json.Decode exposing (..)
 
 
 expectedCart : Cart
-expectedCart =ewiofjiowaejf;j;;;;;;
+expectedCart =
   Dict.fromList [(1, ({ name = "Sulfuras, hand of Ragnaros", quantity = 1, unitPrice = 999.0, subtotal = 999.0 }))]
 
 
