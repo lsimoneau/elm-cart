@@ -41,28 +41,12 @@ fetchCart =
 
 cartDecoder : Decode.Decoder Cart
 cartDecoder =
-    itemDecoder |> list |> field "items" |> map buildCart
+    itemDecoder |> list |> field "items" |> map (List.sortBy .productId)
 
 
-buildCart : List JsonItem -> Cart
-buildCart items =
-    items
-        |> List.map
-            (\i ->
-                ( i.productId
-                , { quantity = i.quantity
-                  , name = i.productName
-                  , unitPrice = i.unitPrice
-                  , subtotal = i.subtotal
-                  }
-                )
-            )
-        |> fromList
-
-
-itemDecoder : Decode.Decoder JsonItem
+itemDecoder : Decode.Decoder Item
 itemDecoder =
-    map5 JsonItem
+    map5 Item
         (field "productId" int)
         (field "quantity" int)
         (field "productName" string)

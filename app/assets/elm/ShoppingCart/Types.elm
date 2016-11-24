@@ -21,7 +21,8 @@ type alias ProductId =
 
 
 type alias Item =
-    { quantity : Int
+    { productId: Int
+    , quantity : Int
     , name : String
     , unitPrice : Float
     , subtotal : Float
@@ -29,4 +30,4 @@ type alias Item =
 
 
 type alias Cart =
-    Dict ProductId Item
+    List Item

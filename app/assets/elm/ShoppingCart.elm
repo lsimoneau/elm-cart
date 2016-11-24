@@ -23,7 +23,7 @@ main =
 init : ( Model, Cmd Msg )
 init =
     ( { loading = False
-      , cart = fromList []
+      , cart = []
       }
     , fetchCart
     )
@@ -65,19 +65,19 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     section [ class "section" ]
-        [ div [] (List.map itemView (toList model.cart)) ]
+        [ div [] (List.map itemView model.cart) ]
 
 
-itemView : ( ProductId, Item ) -> Html Msg
-itemView ( productId, item ) =
+itemView : Item -> Html Msg
+itemView item =
     div [ class "box" ]
         [ article [ class "product media" ]
             [ div [ class "content" ]
                 [ div [] [ text item.name ]
                 , div [] [ toString item.quantity |> text ]
                 , div [] [ dollars item.subtotal |> text ]
-                , button [ onClick (Decrement productId) ] [ text "-" ]
-                , button [ onClick (Increment productId) ] [ text "+" ]
+                , button [ onClick (Decrement item.productId) ] [ text "-" ]
+                , button [ onClick (Increment item.productId) ] [ text "+" ]
                 ]
             ]
         ]
