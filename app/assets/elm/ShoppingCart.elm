@@ -6,7 +6,7 @@ import ShoppingCart.Api exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
-import Http exposing (Error)
+import Http exposing (Error, Response)
 import Dict exposing (fromList, toList)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
@@ -76,8 +76,8 @@ update msg model =
         PaymentSubmitted (Ok False) ->
             ( { model | formSubmitting = False, paymentError = Just "Oops, something went wrong" }, Cmd.none )
 
-        PaymentSubmitted (Err response) ->
-            ( model, Cmd.none )
+        PaymentSubmitted (Err error) ->
+            ( { model | formSubmitting = False, paymentError = Just (handleError error) }, Cmd.none )
 
         Checkout ->
             ( { model | formSubmitting = True } , checkout model.cardDetails )
@@ -96,6 +96,17 @@ update msg model =
 
         GetCardToken token ->
             ( model, submitPayment token )
+
+
+handleError : Error -> String
+handleError error =
+    case error of
+        Http.BadStatus response ->
+            Decode.decodeString (Decode.field "error" Decode.string) response.body
+            |> Result.withDefault "Oops. Something went wrong."
+        _ ->
+            "Oops. Something went wrong."
+
 
 
 updateCardNumber : String -> CardDetails -> CardDetails

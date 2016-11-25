@@ -13,6 +13,8 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'elm-rails', git: 'https://github.com/lsimoneau/elm-rails', branch: 'fix-dependencies'
 
+gem 'stripe'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rubocop', require: false
