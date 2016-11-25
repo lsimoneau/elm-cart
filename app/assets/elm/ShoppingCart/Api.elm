@@ -10,6 +10,19 @@ import ShoppingCart.Types exposing (..)
 -- HTTP
 
 
+submitPayment : String -> Cmd Msg
+submitPayment token =
+    Http.send PaymentSubmitted (Http.post "/cart/payment" (paymentBody token) (field "paid" bool))
+
+
+paymentBody : String -> Http.Body
+paymentBody token =
+    Http.jsonBody
+        (Encode.object
+            [ ( "card_token", Encode.string token ) ]
+        )
+
+
 updateItem : ProductId -> Int -> Cmd Msg
 updateItem id quantity =
     Http.send UpdateCart (updateItemRequest id quantity)

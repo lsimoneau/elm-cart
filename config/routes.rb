@@ -3,5 +3,6 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show], controller: :cart do
     resources :items, only: [:create]
+    resource :payment, only: [:create]
   end
 end
