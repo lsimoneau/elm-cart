@@ -1,7 +1,6 @@
-module ShoppingCart.View exposing (..)
+module ShoppingCart.View exposing (view)
 
 import ShoppingCart.Types exposing (..)
-
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
@@ -34,7 +33,14 @@ itemView item =
 
 checkoutDialog : Model -> Html Msg
 checkoutDialog model =
-    div [ class (if model.checkout then "modal is-active" else "modal") ]
+    div
+        [ class
+            (if model.checkingOut then
+                "modal is-active"
+             else
+                "modal"
+            )
+        ]
         [ div [ class "modal-background" ] []
         , div [ class "modal-card" ]
             [ header [ class "modal-card-head" ]
@@ -42,11 +48,21 @@ checkoutDialog model =
             , section [ class "modal-card-body" ]
                 [ checkoutForm model ]
             , footer [ class "modal-card-foot" ]
-                [ a [ class (if model.formSubmitting then "button is-primary is-loading" else "button is-primary"), onClick Checkout ] [ text "Checkout" ]
+                [ a
+                    [ class
+                        (if model.formSubmitting then
+                            "button is-primary is-loading"
+                         else
+                            "button is-primary"
+                        )
+                    , onClick Checkout
+                    ]
+                    [ text "Checkout" ]
                 , a [ class "button", onClick CancelCheckout ] [ text "Cancel" ]
                 ]
             ]
         ]
+
 
 checkoutForm : Model -> Html Msg
 checkoutForm model =
@@ -76,11 +92,15 @@ checkoutForm model =
             ]
         ]
 
+
 formError : Maybe String -> Html Msg
 formError error =
-  case error of
-    Just errorText -> div [ class "notification is-danger" ] [ text errorText ]
-    Nothing -> div [] []
+    case error of
+        Just errorText ->
+            div [ class "notification is-danger" ] [ text errorText ]
+
+        Nothing ->
+            div [] []
 
 
 dollars : Float -> String

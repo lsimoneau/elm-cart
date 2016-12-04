@@ -4,13 +4,15 @@
 </div>
 
 <script>
-  Stripe.setPublishableKey('pk_test_rLTDPf7qeKubADQo8CPkc1xb');
+  //Stripe.setPublishableKey('pk_test_rLTDPf7qeKubADQo8CPkc1xb');
 
   var cartDiv = document.getElementById('cart');
   var app = Elm.ShoppingCart.embed(cartDiv);
 
   app.ports.checkout.subscribe(function(card_details) {
     Stripe.card.createToken(card_details, function(status, response) {
+      console.log(status);
+      console.log(response);
       app.ports.cardToken.send(response.id);
     });
   });

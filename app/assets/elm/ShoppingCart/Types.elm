@@ -6,8 +6,8 @@ import Http exposing (Error)
 
 type alias Model =
     { loading : Bool
-    , checkout : Bool
-    , cardDetails: CardDetails
+    , checkingOut : Bool
+    , cardDetails : CardDetails
     , formSubmitting : Bool
     , paymentError : Maybe String
     , cart : Cart
@@ -34,7 +34,7 @@ type alias ProductId =
 
 
 type alias Item =
-    { productId: ProductId
+    { productId : ProductId
     , quantity : Int
     , name : String
     , unitPrice : Float
@@ -47,12 +47,12 @@ type alias Cart =
 
 
 type alias CardDetails =
-  { number: String
-  , exp_month: String
-  , exp_year: String
-  , cvc: String
-  }
+    { number : String
+    , exp_month : String
+    , exp_year : String
+    , cvc : String
+    }
 
 
 type alias Charge =
-  { paid: Bool }
+    { paid : Bool }
