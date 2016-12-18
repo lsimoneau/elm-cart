@@ -22,11 +22,11 @@ type Msg
     | GoToCheckout
     | CancelCheckout
     | Checkout
+    | GetCardToken String
     | UpdateCardNumber String
     | UpdateExpMonth String
     | UpdateExpYear String
     | UpdateCvc String
-    | GetCardToken String
 
 
 type alias ProductId =

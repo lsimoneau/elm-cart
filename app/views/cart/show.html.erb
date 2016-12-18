@@ -11,9 +11,15 @@
 
   app.ports.checkout.subscribe(function(card_details) {
     Stripe.card.createToken(card_details, function(status, response) {
-      console.log(status);
-      console.log(response);
       app.ports.cardToken.send(response.id);
     });
+  });
+
+  app.ports.updateCount.subscribe(function(count) {
+    if(count > 0) {
+      $('.nav .cart').text("My Cart (" + count + ")");
+    } else {
+      $('.nav .cart').text("My Cart");
+    }
   });
 </script>

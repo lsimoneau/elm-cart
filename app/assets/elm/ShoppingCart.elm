@@ -48,6 +48,9 @@ emptyCard =
 port checkout : CardDetails -> Cmd msg
 
 
+port updateCount : Int -> Cmd msg
+
+
 port cardToken : (String -> msg) -> Sub msg
 
 
@@ -67,7 +70,7 @@ update msg model =
             ( model, updateItem productId -1 )
 
         UpdateCart (Ok cart) ->
-            ( { model | cart = cart }, Cmd.none )
+            ( { model | cart = cart }, cart |> List.map .quantity |> List.sum |> updateCount )
 
         UpdateCart (Err _) ->
             ( model, Cmd.none )
