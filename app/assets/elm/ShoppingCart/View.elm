@@ -10,19 +10,36 @@ import Round exposing (round)
 view : Model -> Html Msg
 view model =
     section [ class "section" ]
-        [ div [ class "columns" ]
-            [ div [ class "column is-two-thirds" ]
-                [ errorMessage model.cartError
-                , div [] (List.map itemView model.cart.items)
-                ]
-            , div [ class "column" ]
-                [ nav [ class "panel" ]
-                    [ div [ class "panel-block" ]
-                        [ strong [] [ text ("Total: " ++ (dollars model.cart.total)) ]
-                        ]
-                    , div [ class "panel-block" ]
-                        [ a [ class "button is-primary", onClick GoToCheckout ] [ text "Checkout" ]
-                        ]
+        [ if model.status == CompletedCheckout then
+            successView
+          else
+            cartView model
+        ]
+
+
+successView : Html Msg
+successView =
+    div [ class "message is-success" ]
+        [ div [ class "message-body" ]
+            [ text "Your payment was successful. Check your email for order details."
+            ]
+        ]
+
+
+cartView : Model -> Html Msg
+cartView model =
+    div [ class "columns" ]
+        [ div [ class "column is-two-thirds" ]
+            [ errorMessage model.cartError
+            , div [] (List.map itemView model.cart.items)
+            ]
+        , div [ class "column" ]
+            [ nav [ class "panel" ]
+                [ div [ class "panel-block" ]
+                    [ strong [] [ text ("Total: " ++ (dollars model.cart.total)) ]
+                    ]
+                , div [ class "panel-block" ]
+                    [ a [ class "button is-primary", onClick GoToCheckout ] [ text "Checkout" ]
                     ]
                 ]
             ]
@@ -65,7 +82,7 @@ checkoutDialog : Model -> Html Msg
 checkoutDialog model =
     div
         [ class
-            (if model.checkingOut then
+            (if showCheckoutForm model then
                 "modal is-active"
              else
                 "modal"
@@ -80,7 +97,7 @@ checkoutDialog model =
             , footer [ class "modal-card-foot" ]
                 [ a
                     [ class
-                        (if model.formSubmitting then
+                        (if model.status == SubmittingCheckoutForm then
                             "button is-primary is-loading"
                          else
                             "button is-primary"
@@ -92,6 +109,11 @@ checkoutDialog model =
                 ]
             ]
         ]
+
+
+showCheckoutForm : Model -> Bool
+showCheckoutForm model =
+    model.status == SubmittingCheckoutForm || model.status == ViewingCheckoutForm
 
 
 checkoutForm : Model -> Html Msg

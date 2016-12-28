@@ -26,10 +26,9 @@ main =
 init : ( Model, Cmd Msg )
 init =
     ( { loading = False
-      , checkingOut = False
+      , status = ViewingCart
       , cartError = Nothing
       , cardDetails = emptyCard
-      , formSubmitting = False
       , paymentError = Nothing
       , cart = { items = [], total = 0.0 }
       }
@@ -59,10 +58,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GoToCheckout ->
-            ( { model | checkingOut = True }, Cmd.none )
+            ( { model | status = ViewingCheckoutForm }, Cmd.none )
 
         CancelCheckout ->
-            ( { model | checkingOut = False }, Cmd.none )
+            ( { model | status = ViewingCart }, Cmd.none )
 
         Increment productId ->
             ( model, updateItem productId 1 )
@@ -77,13 +76,13 @@ update msg model =
             ( { model | cartError = Just (handleError error) }, Cmd.none )
 
         PaymentSubmitted (Ok _) ->
-            ( { model | formSubmitting = False, paymentError = Nothing }, Cmd.none )
+            ( { model | status = CompletedCheckout, paymentError = Nothing }, Cmd.none )
 
         PaymentSubmitted (Err error) ->
-            ( { model | formSubmitting = False, paymentError = Just (handleError error) }, Cmd.none )
+            ( { model | status = ViewingCheckoutForm, paymentError = Just (handleError error) }, Cmd.none )
 
         Checkout ->
-            ( { model | formSubmitting = True }, checkout model.cardDetails )
+            ( { model | status = SubmittingCheckoutForm }, checkout model.cardDetails )
 
         UpdateCardNumber value ->
             ( { model | cardDetails = updateCardNumber value model.cardDetails }, Cmd.none )

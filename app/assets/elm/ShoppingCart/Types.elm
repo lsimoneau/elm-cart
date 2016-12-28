@@ -4,11 +4,17 @@ import Dict exposing (Dict)
 import Http exposing (Error)
 
 
+type Status
+    = ViewingCart
+    | ViewingCheckoutForm
+    | SubmittingCheckoutForm
+    | CompletedCheckout
+
+
 type alias Model =
     { loading : Bool
-    , checkingOut : Bool
     , cardDetails : CardDetails
-    , formSubmitting : Bool
+    , status : Status
     , paymentError : Maybe String
     , cartError : Maybe String
     , cart : Cart
