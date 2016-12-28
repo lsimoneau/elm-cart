@@ -10,7 +10,8 @@ import Round exposing (round)
 view : Model -> Html Msg
 view model =
     section [ class "section" ]
-        [ div [] (List.map itemView model.cart)
+        [ errorMessage model.cartError
+        , div [] (List.map itemView model.cart.items)
         , a [ class "button is-primary", onClick GoToCheckout ] [ text "Checkout" ]
         , checkoutDialog model
         ]
@@ -67,7 +68,7 @@ checkoutDialog model =
 checkoutForm : Model -> Html Msg
 checkoutForm model =
     div []
-        [ formError model.paymentError
+        [ errorMessage model.paymentError
         , label [ class "label" ] [ text "Card Number" ]
         , p [ class "control has-icon has-icon-left" ]
             [ i [ class "fa fa-credit-card" ] []
@@ -93,8 +94,8 @@ checkoutForm model =
         ]
 
 
-formError : Maybe String -> Html Msg
-formError error =
+errorMessage : Maybe String -> Html Msg
+errorMessage error =
     case error of
         Just errorText ->
             div [ class "notification is-danger" ] [ text errorText ]

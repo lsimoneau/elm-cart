@@ -8,7 +8,8 @@ class OrderPresenter
       id: order.id,
       items: order.items.map { |item|
         ItemPresenter.new(item).as_json
-      }
+      },
+      total: order.total
     }
   end
 

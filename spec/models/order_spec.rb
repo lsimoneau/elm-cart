@@ -23,6 +23,15 @@ RSpec.describe Order do
     end
   end
 
+  describe "#total" do
+    it 'returns the total price of the order' do
+      order = Order.create
+      order.items.create(product: Product.new(unit_price: 20), quantity: 2)
+      order.items.create(product: Product.new(unit_price: 15), quantity: 1)
+      expect(order.total).to eq 55
+    end
+  end
+
   describe '#purchased?' do
     it 'is false if the purchased_at timestamp is nil' do
       order = Order.new(purchased_at: nil)

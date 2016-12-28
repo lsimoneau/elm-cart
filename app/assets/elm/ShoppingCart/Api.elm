@@ -50,7 +50,9 @@ fetchCart =
 
 cartDecoder : Decode.Decoder Cart
 cartDecoder =
-    itemDecoder |> list |> field "items" |> map (List.sortBy .productId)
+    map2 Cart
+        (itemDecoder |> list |> field "items" |> map (List.sortBy .productId))
+        (field "total" (map parseDecimal string))
 
 
 itemDecoder : Decode.Decoder Item

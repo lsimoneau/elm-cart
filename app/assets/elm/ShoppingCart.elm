@@ -27,10 +27,11 @@ init : ( Model, Cmd Msg )
 init =
     ( { loading = False
       , checkingOut = False
+      , cartError = Nothing
       , cardDetails = emptyCard
       , formSubmitting = False
       , paymentError = Nothing
-      , cart = []
+      , cart = { items = [], total = 0.0 }
       }
     , fetchCart
     )
@@ -70,10 +71,10 @@ update msg model =
             ( model, updateItem productId -1 )
 
         UpdateCart (Ok cart) ->
-            ( { model | cart = cart }, cart |> List.map .quantity |> List.sum |> updateCount )
+            ( { model | cart = cart }, cart.items |> List.map .quantity |> List.sum |> updateCount )
 
-        UpdateCart (Err _) ->
-            ( model, Cmd.none )
+        UpdateCart (Err error) ->
+            ( { model | cartError = Just (handleError error) }, Cmd.none )
 
         PaymentSubmitted (Ok _) ->
             ( { model | formSubmitting = False, paymentError = Nothing }, Cmd.none )
@@ -108,6 +109,9 @@ handleError error =
                 (Decode.field "error" Decode.string)
                 response.body
                 |> Result.withDefault "Oops. Something went wrong."
+
+        Http.BadPayload error _ ->
+            error
 
         _ ->
             "Oops. Something went wrong."

@@ -10,6 +10,7 @@ type alias Model =
     , cardDetails : CardDetails
     , formSubmitting : Bool
     , paymentError : Maybe String
+    , cartError : Maybe String
     , cart : Cart
     }
 
@@ -43,7 +44,7 @@ type alias Item =
 
 
 type alias Cart =
-    List Item
+    { items : List Item, total : Float }
 
 
 type alias CardDetails =

@@ -9,6 +9,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def total
+    items.inject(0) { |total, item| total + item.subtotal }
+  end
+
   def purchased?
     purchased_at.present?
   end
