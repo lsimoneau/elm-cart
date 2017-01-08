@@ -54,6 +54,9 @@ port updateCount : Int -> Cmd msg
 port cardToken : (String -> msg) -> Sub msg
 
 
+port cardError : (String -> msg) -> Sub msg
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -99,6 +102,9 @@ update msg model =
         GetCardToken token ->
             ( model, submitPayment token )
 
+        GetCardError error ->
+            ( { model | status = ViewingCheckoutForm, paymentError = Just error }, Cmd.none )
+
 
 handleError : Error -> String
 handleError error =
@@ -142,4 +148,7 @@ updateCvc value details =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    cardToken GetCardToken
+    Sub.batch
+        [ cardToken GetCardToken
+        , cardError GetCardError
+        ]

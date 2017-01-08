@@ -30,6 +30,7 @@ type Msg
     | CancelCheckout
     | Checkout
     | GetCardToken String
+    | GetCardError String
     | UpdateCardNumber String
     | UpdateExpMonth String
     | UpdateExpYear String

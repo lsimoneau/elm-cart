@@ -11,7 +11,11 @@
 
   app.ports.checkout.subscribe(function(card_details) {
     Stripe.card.createToken(card_details, function(status, response) {
-      app.ports.cardToken.send(response.id);
+      if (response.error) {
+        app.ports.cardError.send(response.error.message);
+      } else {
+        app.ports.cardToken.send(response.id);
+      }
     });
   });
 
